@@ -30,6 +30,10 @@ state = {
 
 hide = [True] * 64
 
+def all_uncovered():
+    """Return True if all tiles are uncovered."""
+    return not any(hide)
+
 counter = Turtle(visible=False)
 counter.up()
 counter.goto(-200, 180)
@@ -102,9 +106,16 @@ def draw():
         goto(x + 2, y)
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
-        
+       
+
     counter.clear()
     counter.write(f'Taps: {state["taps"]}', font=('Arial', 16, 'normal'))
+    
+    if all_uncovered():
+       up()
+       goto(-80, 0)
+       color('green')
+       write('You won!', font=('Arial', 30, 'normal'))
 
     update()
     ontimer(draw, 100)
