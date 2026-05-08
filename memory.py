@@ -30,8 +30,11 @@ state = {
 
 hide = [True] * 64
 
-scorer = Turtle(visible=False)
+counter = Turtle(visible=False)
+counter.up()
+counter.goto(-200, 180)
 
+scorer = Turtle(visible=False)
 
 def square(x, y):
     up()
@@ -64,7 +67,10 @@ def center_xy(count):
     return cx, cy
 
 def tap(x, y):
-    "Update mark and hidden tiles based on tap."
+    """Update mark and hidden tiles based on tap."""
+
+    state['taps'] += 1
+
     spot = index(x, y)
     mark = state['mark']
 
@@ -74,6 +80,8 @@ def tap(x, y):
         hide[spot] = False
         hide[mark] = False
         state['mark'] = None
+
+
 def draw():
     "Draw image and tiles."
     clear()
@@ -94,6 +102,9 @@ def draw():
         goto(x + 2, y)
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
+        
+    counter.clear()
+    counter.write(f'Taps: {state["taps"]}', font=('Arial', 16, 'normal'))
 
     update()
     ontimer(draw, 100)
